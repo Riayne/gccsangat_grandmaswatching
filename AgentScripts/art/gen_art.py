@@ -541,9 +541,78 @@ def bubble():
     c.save("bubble")
 
 
+def chotu():
+    """Little brother in striped pajamas with a lollipop; drawn 170x300, feet at the bottom."""
+    W, H = 170, 300
+    c = Cv(W, H)
+    stripe_a, stripe_b = (90, 140, 220, 255), (200, 220, 250, 255)
+    c.ell(45, 285, 80, 298, (200, 60, 60, 255), w=2)
+    c.ell(90, 285, 125, 298, (200, 60, 60, 255), w=2)
+    c.rrect(45, 130, 125, 290, 22, stripe_a, w=3)
+    for y in range(140, 285, 18):
+        c.rect(48, y, 122, y + 8, stripe_b, ol=None)
+    c.rrect(45, 130, 125, 290, 22, None, w=3)
+    c.poly([(120, 150), (150, 110), (160, 118), (128, 165)], stripe_a)   # arm up holding lollipop
+    c.circ(155, 108, 10, SKIN)
+    c.line([(155, 105), (155, 60)], (240, 240, 240, 255), 4)
+    c.circ(155, 50, 18, (240, 60, 140, 255), w=3)
+    c.line([(145, 45), (165, 55)], (255, 255, 255, 255), 3)
+    c.ell(35, 25, 135, 140, SKIN, w=3)                          # head
+    c.poly([(35, 75), (45, 25), (85, 10), (125, 25), (135, 75), (110, 45), (60, 45)], HAIR, w=3)
+    for ex in (68, 102):                                         # big curious eyes
+        c.ell(ex - 15, 70, ex + 15, 104, (255, 255, 255, 255), w=3)
+        c.circ(ex, 90, 8, (30, 20, 20, 255), ol=None)
+        c.circ(ex - 3, 86, 3, (255, 255, 255, 255), ol=None)
+    c.ell(75, 115, 95, 128, (150, 50, 60, 255), w=2)              # "ooh" mouth
+    c.save("chotu")
+
+
+def golden_cookie():
+    W = H = 160
+    c = Cv(W, H)
+    for k in range(12):
+        a = k / 12 * math.pi * 2
+        c.poly([(80, 80), (80 + 78 * math.cos(a - 0.12), 80 + 78 * math.sin(a - 0.12)),
+                (80 + 78 * math.cos(a + 0.12), 80 + 78 * math.sin(a + 0.12))], (255, 230, 120, 140), ol=None)
+    c.circ(80, 80, 42, (255, 200, 40, 255), ol=(150, 90, 10, 255), w=4)
+    c.circ(80, 80, 32, (255, 220, 90, 255), ol=None)
+    for (x, y) in ((68, 70), (92, 74), (78, 92), (95, 92), (65, 88)):
+        c.circ(x, y, 5, (190, 120, 20, 255), ol=None)
+    c.circ(66, 64, 6, (255, 255, 230, 255), ol=None)
+    c.save("golden_cookie")
+    put("golden_cookie", 760, 1255, 920, 1415, 27)
+
+
+def vignette():
+    """Red glow around the screen edges, used while Dadi is watching."""
+    W, H = 270, 480
+    im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    px = im.load()
+    for y in range(H):
+        for x in range(W):
+            dx = min(x, W - 1 - x) / (W * 0.5)
+            dy = min(y, H - 1 - y) / (H * 0.5)
+            d = min(dx, dy)
+            a = max(0.0, 1 - d / 0.35)
+            px[x, y] = (200, 20, 40, int(200 * a ** 2))
+    im.save(os.path.join(OUT, "vignette.png"))
+
+
+def icon_steps():
+    W = H = 128
+    c = Cv(W, H)
+    white = (255, 255, 255, 255)
+    for (x, y) in ((40, 80), (88, 44)):
+        c.ell(x - 13, y - 14, x + 13, y + 30, white, ol=None)            # sole
+        for k, (tx, tr) in enumerate(((-11, 5), (-3, 5), (5, 4.5), (12, 4))):
+            c.circ(x + tx, y - 22 + abs(tx) * 0.4, tr, white, ol=None)  # toes
+    c.save("icon_steps")
+
+
 if __name__ == "__main__":
     background(); moonbeam(); window_jali(); curtains(); door_panel(); light_strip()
     sofa(); charpai(); stool_box(); bacha(); dadi(); chappal(); crack(); truck_frame(); bubble()
+    chotu(); golden_cookie(); vignette(); icon_steps()
     # Dadi spawn placements: (centre x, feet y, scale, sprite, order)
     spawns = {
         "kitchen": {"cx": 170, "feet": FLOOR + 4, "scale": 1.0, "sprite": "dadi", "order": 4, "pan": -0.9, "tap": KITCHEN},
@@ -567,7 +636,7 @@ if __name__ == "__main__":
         if k in ("spawns", "dadi_size"):
             continue
         unity["sprites"].append(dict(name=k, **v))
-    unlock = {"kitchen": 0, "bedroom": 0, "hall": 0, "window": 0.2, "sofa": 0.45}
+    unlock = {"kitchen": 1, "bedroom": 1, "hall": 1, "window": 5, "sofa": 7}   # night the spawn unlocks
     kind = {"kitchen": "Door", "bedroom": "Door", "hall": "Door", "window": "Window", "sofa": "Sofa"}
     for k, s in spawns.items():
         unity["spawns"].append({"id": k, "kind": kind[k], "unlockAt": unlock[k], "pan": s["pan"], "scale": s["scale"],

@@ -2,6 +2,7 @@
     --truck-pink: rgb(230, 40, 90);
     --truck-yellow: rgb(255, 214, 51);
     --truck-green: rgb(30, 170, 120);
+    --truck-blue: rgb(40, 120, 230);
     --ink: rgb(40, 18, 40);
 }
 
@@ -19,6 +20,10 @@ Label, Button {
     margin: 0;
 }
 
+.en {
+    -unity-font-definition: url("project://database/Assets/Fonts/LilitaOne_SDF.asset");
+}
+
 .hidden {
     display: none;
 }
@@ -31,6 +36,36 @@ Label, Button {
     -unity-slice-bottom: 34;
 }
 
+.fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Full-screen effects */
+.blackout {
+    /* very high alpha on purpose: with the Linear color space lower values look only slightly dim */
+    background-color: rgba(3, 3, 15, 0.985);
+    opacity: 0;
+    transition-duration: 0.2s;
+}
+
+.blackout--on {
+    opacity: 1;
+}
+
+.vignette {
+    background-image: url("project://database/Assets/Art/vignette.png");
+    opacity: 0;
+    transition-duration: 0.15s;
+}
+
+.vignette--on {
+    opacity: 1;
+}
+
 /* HUD */
 .hud {
     position: absolute;
@@ -38,14 +73,15 @@ Label, Button {
     left: 10px;
     right: 10px;
     height: 150px;
-    flex-direction: row-reverse;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 20px 60px;
 }
 
 .hud-label {
-    font-size: 50px;
+    font-size: 46px;
+    min-width: 260px;
 }
 
 .score {
@@ -54,7 +90,66 @@ Label, Button {
 }
 
 .score--pop {
-    scale: 1.3 1.3;
+    scale: 1.25 1.25;
+}
+
+.night {
+    color: rgb(150, 210, 255);
+}
+
+.meters {
+    position: absolute;
+    top: 170px;
+    left: 40px;
+    right: 40px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.combo {
+    font-size: 72px;
+    color: var(--truck-yellow);
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: var(--truck-pink);
+    opacity: 0;
+    scale: 0.6 0.6;
+    transition-duration: 0.15s;
+}
+
+.combo--on {
+    opacity: 1;
+    scale: 1 1;
+}
+
+.noise {
+    flex-direction: row;
+    align-items: center;
+}
+
+.noise-label {
+    font-size: 34px;
+    margin-right: 14px;
+}
+
+.noise-bar {
+    width: 300px;
+    height: 34px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-width: 4px;
+    border-color: white;
+    border-radius: 17px;
+    overflow: hidden;
+}
+
+.noise-fill {
+    height: 100%;
+    width: 0;
+    background-color: var(--truck-green);
+}
+
+.noise-fill--loud {
+    background-color: var(--truck-pink);
 }
 
 /* World-anchored labels */
@@ -81,32 +176,52 @@ Label, Button {
     color: var(--ink);
 }
 
-.praise {
+/* Popups and hints */
+.popup {
     position: absolute;
-    top: 30%;
+    top: 27%;
     left: 0;
     right: 0;
-    font-size: 120px;
-    color: var(--truck-yellow);
-    -unity-text-outline-width: 3px;
-    -unity-text-outline-color: var(--truck-pink);
+    align-items: center;
     opacity: 0;
     scale: 0.4 0.4;
     transition-duration: 0.25s;
 }
 
-.praise--show {
+.popup--show {
     opacity: 1;
     scale: 1 1;
 }
 
-/* Full-screen panels (title + game over) */
-.screen {
+.popup-text {
+    font-size: 120px;
+    color: var(--truck-yellow);
+    -unity-text-outline-width: 3px;
+    -unity-text-outline-color: var(--truck-pink);
+}
+
+.popup-sub {
+    font-size: 54px;
+    color: white;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: var(--ink);
+}
+
+.hint {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 52%;
+    left: 40px;
+    right: 40px;
+    font-size: 60px;
+    color: white;
+    white-space: normal;
+    background-color: rgba(230, 40, 90, 0.88);
+    border-radius: 30px;
+    padding: 20px 30px;
+}
+
+/* Full-screen panels */
+.screen {
     background-color: rgba(10, 6, 25, 0.78);
     justify-content: center;
     align-items: center;
@@ -119,36 +234,32 @@ Label, Button {
 }
 
 .title {
-    font-size: 96px;
+    font-size: 88px;
     color: var(--truck-yellow);
     margin-bottom: 10px;
 }
 
 .tagline {
     font-size: 54px;
-    color: white;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
-.how-to {
-    align-items: stretch;
+.best-line {
+    font-size: 44px;
+    color: rgb(150, 210, 255);
     margin-bottom: 40px;
-}
-
-.how-to-line {
-    font-size: 40px;
-    color: rgb(220, 230, 255);
-    margin-bottom: 8px;
 }
 
 .big-button {
-    font-size: 64px;
+    font-size: 66px;
     color: var(--ink);
     background-color: var(--truck-yellow);
     border-width: 6px;
     border-color: var(--truck-pink);
     border-radius: 40px;
-    padding: 18px 70px 30px 70px;
+    padding: 22px 70px;
+    margin-bottom: 26px;
+    min-width: 560px;
     transition-duration: 0.1s;
 }
 
@@ -157,21 +268,106 @@ Label, Button {
     background-color: var(--truck-green);
 }
 
+.small-button {
+    font-size: 44px;
+    color: white;
+    background-color: var(--truck-blue);
+    border-width: 4px;
+    border-color: white;
+    border-radius: 30px;
+    padding: 14px 40px;
+    min-width: 400px;
+    transition-duration: 0.1s;
+}
+
+.small-button:active {
+    scale: 0.94 0.94;
+}
+
+.menu {
+    justify-content: space-around;
+    padding: 220px 0 120px 0;
+}
+
+.menu-title-block {
+    align-items: center;
+}
+
+.menu-buttons {
+    align-items: center;
+}
+
+/* How to play */
+.howto-header {
+    font-size: 80px;
+    color: var(--truck-yellow);
+    margin-bottom: 30px;
+}
+
+.howto-row {
+    flex-direction: row;
+    padding-right: 40px;
+    align-items: center;
+    align-self: stretch;
+    margin-bottom: 22px;
+}
+
+.howto-icon {
+    width: 120px;
+    height: 120px;
+    -unity-background-scale-mode: scale-to-fit;
+    margin-right: 26px;
+    flex-shrink: 0;
+}
+
+.howto-text {
+    font-size: 38px;
+    flex-shrink: 1;
+    flex-grow: 1;
+    white-space: normal;
+    -unity-text-align: middle-left;
+}
+
+/* Night card */
+.night-title {
+    font-size: 140px;
+    color: var(--truck-yellow);
+    -unity-text-outline-width: 3px;
+    -unity-text-outline-color: var(--truck-pink);
+}
+
+.night-text {
+    font-size: 54px;
+    white-space: normal;
+    margin-top: 20px;
+}
+
+/* Game over */
 .caught {
     font-size: 130px;
     color: var(--truck-pink);
     -unity-text-outline-width: 3px;
     -unity-text-outline-color: white;
+}
+
+.rank {
+    font-size: 70px;
+    color: var(--truck-yellow);
     margin-bottom: 20px;
 }
 
 .result {
-    font-size: 60px;
-    margin-bottom: 10px;
+    font-size: 54px;
+    margin-bottom: 8px;
 }
 
 .new-best {
-    font-size: 54px;
+    font-size: 60px;
     color: var(--truck-green);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.button-row {
+    margin-top: 30px;
+    align-items: center;
 }

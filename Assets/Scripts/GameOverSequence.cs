@@ -42,9 +42,7 @@ public class GameOverSequence : MonoBehaviour
         float crackScale = Mathf.Max(cam.orthographicSize * 2f / 19.2f, cam.orthographicSize * 2f * cam.aspect / 10.8f);
         crack.localScale = Vector3.one * crackScale;
         cameraFit.Shake(0.45f, 0.35f);
-#if UNITY_ANDROID || UNITY_IOS
-        Handheld.Vibrate();
-#endif
+        Haptics.Long();
         yield return new WaitForSeconds(0.9f);
     }
 }

@@ -18,8 +18,9 @@ S box_label 2.9 -5.625 2.8 1.25 0
 S box_lid 2.9 -3.4 3.4 2.0 19
 S bacha_eat -0.05 -3.75 4.9 5.5 25
 S bacha_hide -0.75 -4.7 1.9 1.0 15
-P kitchen Door dadi 0 -0.9 1.0 -3.7 0.92 -3.7 3.28 2.4 4.64 4
-P bedroom Door dadi 0 0.9 1.0 3.7 0.92 3.7 3.28 2.4 4.64 4
-P hall Door dadi 0 0.0 0.74 0.0 0.92 0.0 2.63 2.3 3.34 4
-P window Window dadi_bust 0.2 0.15 1.0 0.2 4.6 0.0 6.3 3.0 2.8 5
-P sofa Sofa dadi 0.45 -0.5 1.0 -3.1 -2.0 -3.1 -1.5 4.0 3.6 5
+S golden_cookie 3.0 -3.75 1.6 1.6 27
+P kitchen Door dadi 1 -0.9 1.0 -3.7 0.92 -3.7 3.28 2.4 4.64 4
+P bedroom Door dadi 1 0.9 1.0 3.7 0.92 3.7 3.28 2.4 4.64 4
+P hall Door dadi 1 0.0 0.74 0.0 0.92 0.0 2.63 2.3 3.34 4
+P window Window dadi_bust 5 0.15 1.0 0.2 4.6 0.0 6.3 3.0 2.8 5
+P sofa Sofa dadi 7 -0.5 1.0 -3.1 -2.0 -3.1 -1.5 4.0 3.6 5

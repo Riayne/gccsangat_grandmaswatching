@@ -45,7 +45,7 @@ public static class BuildScene
             ti.maxTextureSize = name == "bg_lounge" ? 4096 : 2048;
             var s = new TextureImporterSettings();
             ti.ReadTextureSettings(s);
-            s.spriteAlignment = name.StartsWith("dadi") ? (int)SpriteAlignment.BottomCenter : (int)SpriteAlignment.Center;
+            s.spriteAlignment = name.StartsWith("dadi") || name == "chotu" ? (int)SpriteAlignment.BottomCenter : (int)SpriteAlignment.Center;
             s.spriteMeshType = SpriteMeshType.FullRect;
             ti.SetTextureSettings(s);
             ti.SaveAndReimport();
@@ -57,6 +57,16 @@ public static class BuildScene
         if (AssetDatabase.LoadAssetAtPath<FontAsset>(oldFa) != null) AssetDatabase.MoveAsset(oldFa, fa);
         AssetDatabase.DeleteAsset("Assets/Fonts/NotoNaskhArabic SDF.asset");
         AssetDatabase.DeleteAsset("Assets/Fonts/NotoNaskhArabic.ttf");
+        // English font asset (Lilita One) for buttons, instructions and the HUD.
+        string enFa = "Assets/Fonts/LilitaOne_SDF.asset";
+        if (AssetDatabase.LoadAssetAtPath<FontAsset>(enFa) == null)
+        {
+            var font = AssetDatabase.LoadAssetAtPath<Font>("Assets/Fonts/LilitaOne-Regular.ttf");
+            var asset = FontAsset.CreateFontAsset(font);
+            AssetDatabase.CreateAsset(asset, enFa);
+            if (asset.material) AssetDatabase.AddObjectToAsset(asset.material, asset);
+            foreach (var t in asset.atlasTextures) if (t) AssetDatabase.AddObjectToAsset(t, asset);
+        }
 
         // Panel settings: 1080x1920 reference, match width.
         var ps = AssetDatabase.LoadAssetAtPath<PanelSettings>("Assets/UI/GamePanelSettings.asset");
@@ -103,7 +113,7 @@ public static class BuildScene
             var sp = go.AddComponent<SpawnPoint>();
             sp.kind = (SpawnPoint.Kind)Enum.Parse(typeof(SpawnPoint.Kind), s.kind);
             sp.pan = s.pan;
-            sp.unlockAt = s.unlockAt;
+            sp.unlockNight = Mathf.RoundToInt(s.unlockAt);
             sp.tapArea = new Rect(s.tapX - s.tapW / 2f, s.tapY - s.tapH / 2f, s.tapW, s.tapH);
 
             var dadi = Spr("Dadi", s.sprite, go.transform, null);
@@ -126,6 +136,13 @@ public static class BuildScene
                 door.transform.localScale = new Vector3(d.w / 2.40f, d.h / 4.64f, 1);
                 door.SetActive(false);
                 sp.doorPanel = door;
+
+                var chotu = Spr("Chotu", "chotu", go.transform, null);
+                chotu.transform.position = new Vector3(s.feetX + 0.4f * s.scale, s.feetY, 0);
+                chotu.transform.localScale = Vector3.one * s.scale;
+                chotu.GetComponent<SpriteRenderer>().sortingOrder = s.order;
+                chotu.SetActive(false);
+                sp.chotu = chotu;
             }
             spawnList.Add(sp);
         }
@@ -142,6 +159,7 @@ public static class BuildScene
         Spr("Stool", "stool", boxGo.transform, Info("stool"));
         box.box = Spr("Box", "cookie_box", boxGo.transform, Info("cookie_box")).transform;
         box.lid = Spr("Lid", "box_lid", boxGo.transform, Info("box_lid")).transform;
+        box.golden = Spr("GoldenCookie", "golden_cookie", boxGo.transform, Info("golden_cookie")).transform;
         var anchor = new GameObject("BoxLabelAnchor").transform;
         anchor.SetParent(boxGo.transform);
         var bl = Info("box_label");
@@ -165,6 +183,8 @@ public static class BuildScene
         am.ambient = Clip("ambient"); am.footstep = Clip("footstep"); am.crunch = Clip("crunch");
         am.knock = Clip("knock"); am.doorClose = Clip("door_close"); am.sting = Clip("sting");
         am.whoosh = Clip("whoosh"); am.glassBreak = Clip("glass_break"); am.jump = Clip("jump"); am.praise = Clip("praise");
+        am.cough = Clip("cough"); am.giggle = Clip("giggle"); am.upsBeep = Clip("ups_beep"); am.golden = Clip("golden");
+        am.nightStart = Clip("night_start"); am.powerOff = Clip("power_off");
 
         // Managers
         var gameGo = new GameObject("Game");
@@ -184,8 +204,11 @@ public static class BuildScene
         es.AddComponent<InputSystemUIInputModule>();
 
         // Wire references
-        ui.document = doc; ui.game = gm; ui.cam = cam; ui.boxLabelAnchor = anchor;
-        dc.spawns = spawnList.ToArray(); dc.audioManager = am; dc.ui = ui;
+        ui.document = doc; ui.game = gm; ui.audioManager = am; ui.cam = cam; ui.boxLabelAnchor = anchor;
+        ui.howToIcons = new Sprite[EnglishText.HowTo.GetLength(0)];
+        for (int i = 0; i < ui.howToIcons.Length; i++)
+            ui.howToIcons[i] = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/" + EnglishText.HowTo[i, 0] + ".png");
+        dc.spawns = spawnList.ToArray(); dc.game = gm; dc.audioManager = am; dc.ui = ui;
         seq.cam = cam; seq.cameraFit = fit; seq.audioManager = am; seq.chappal = chappal.transform; seq.crack = crack.transform;
         gm.cam = cam; gm.bacha = bacha; gm.cookieBox = box; gm.dadi = dc; gm.audioManager = am; gm.ui = ui; gm.gameOver = seq;
 

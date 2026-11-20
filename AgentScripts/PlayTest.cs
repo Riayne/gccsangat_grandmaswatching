@@ -25,8 +25,13 @@ public static class PlayTest
             Vector2 middle = gm.cam.WorldToScreenPoint(new Vector3(0, -4, 0));   // floor area, not a door
             Touch(false, middle);
             await Frames(3);
-            if (gm.Current != GameManager.State.Playing) gm.StartGame();
-            await Frames(3);
+            PlayerPrefs.SetInt("TutorialDone", 1);
+            if (gm.Current != GameManager.State.Playing)
+            {
+                gm.StartGame();
+                float end = Time.realtimeSinceStartup + 2.8f;   // night card
+                while (Time.realtimeSinceStartup < end) await Task.Yield();
+            }
 
             // 1. Hold to eat.
             Touch(true, middle);
@@ -89,7 +94,7 @@ public static class PlayTest
 
     static void Touch(bool down, Vector2 pos)
     {
-        var state = new MouseState { position = pos }.WithButton(MouseButton.Left, down);
+        var state = new MouseState { position = pos }.WithButton(UnityEngine.InputSystem.LowLevel.MouseButton.Left, down);
         InputSystem.QueueStateEvent(finger, state);
     }
 

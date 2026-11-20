@@ -1,30 +1,72 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <ui:Style src="Game.uss" />
     <ui:VisualElement name="root" class="root" picking-mode="Ignore">
+        <ui:VisualElement name="blackout" class="fill blackout" picking-mode="Ignore" />
+        <ui:VisualElement name="vignette" class="fill vignette" picking-mode="Ignore" />
         <ui:Label name="boxLabel" class="box-label" picking-mode="Ignore" text="-" />
         <ui:VisualElement name="hud" class="hud truck-frame" picking-mode="Ignore">
-            <ui:Label name="scoreLabel" class="hud-label score" picking-mode="Ignore" text="-" />
-            <ui:Label name="bestLabel" class="hud-label" picking-mode="Ignore" text="-" />
+            <ui:Label name="scoreLabel" class="hud-label score en" picking-mode="Ignore" text="-" />
+            <ui:Label name="nightLabel" class="hud-label night en" picking-mode="Ignore" text="-" />
+            <ui:Label name="bestLabel" class="hud-label en" picking-mode="Ignore" text="-" />
+        </ui:VisualElement>
+        <ui:VisualElement name="meters" class="meters" picking-mode="Ignore">
+            <ui:Label name="comboLabel" class="combo en" picking-mode="Ignore" text="x2" />
+            <ui:VisualElement name="noise" class="noise hidden" picking-mode="Ignore">
+                <ui:Label name="noiseLabel" class="noise-label en" picking-mode="Ignore" text="NOISE" />
+                <ui:VisualElement class="noise-bar" picking-mode="Ignore">
+                    <ui:VisualElement name="noiseFill" class="noise-fill" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="bubble" class="bubble hidden" picking-mode="Ignore">
             <ui:Label name="bubbleText" class="bubble-text" picking-mode="Ignore" text="-" />
         </ui:VisualElement>
-        <ui:Label name="praise" class="praise" picking-mode="Ignore" text="-" />
-        <ui:VisualElement name="titlePanel" class="screen hidden">
-            <ui:VisualElement class="card truck-frame">
-                <ui:Label name="titleLabel" class="title" text="-" />
-                <ui:Label name="taglineLabel" class="tagline" text="-" />
-                <ui:VisualElement name="howTo" class="how-to" />
-                <ui:Button name="startButton" class="big-button" text="-" />
+        <ui:VisualElement name="popup" class="popup" picking-mode="Ignore">
+            <ui:Label name="popupText" class="popup-text" picking-mode="Ignore" text="-" />
+            <ui:Label name="popupSub" class="popup-sub en" picking-mode="Ignore" text="-" />
+        </ui:VisualElement>
+        <ui:Label name="hint" class="hint en hidden" picking-mode="Ignore" text="-" />
+
+        <ui:VisualElement name="nightCard" class="fill screen hidden" picking-mode="Ignore">
+            <ui:VisualElement class="card truck-frame" picking-mode="Ignore">
+                <ui:Label name="nightTitle" class="night-title en" picking-mode="Ignore" text="-" />
+                <ui:Label name="nightText" class="night-text en" picking-mode="Ignore" text="-" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="gameOverPanel" class="screen hidden">
+
+        <ui:VisualElement name="menuPanel" class="fill screen menu hidden">
+            <ui:VisualElement class="menu-title-block card truck-frame">
+                <ui:Label name="titleLabel" class="title" text="-" />
+                <ui:Label name="taglineLabel" class="tagline" text="-" />
+                <ui:Label name="bestLine" class="best-line en" text="-" />
+            </ui:VisualElement>
+            <ui:VisualElement class="menu-buttons">
+                <ui:Button name="playButton" class="big-button en" text="-" />
+                <ui:Button name="howToButton" class="big-button en" text="-" />
+                <ui:Button name="soundButton" class="small-button en" text="-" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="howToPanel" class="fill screen hidden">
+            <ui:VisualElement class="card truck-frame">
+                <ui:Label name="howToHeader" class="howto-header en" text="-" />
+                <ui:VisualElement name="howToRows" />
+                <ui:Button name="gotItButton" class="big-button en" text="-" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="gameOverPanel" class="fill screen hidden">
             <ui:VisualElement class="card truck-frame">
                 <ui:Label name="caughtLabel" class="caught" text="-" />
-                <ui:Label name="finalScoreLabel" class="result" text="-" />
-                <ui:Label name="finalBestLabel" class="result" text="-" />
-                <ui:Label name="newBestLabel" class="new-best" text="-" />
-                <ui:Button name="retryButton" class="big-button" text="-" />
+                <ui:Label name="rankLabel" class="rank" text="-" />
+                <ui:Label name="finalScoreLabel" class="result en" text="-" />
+                <ui:Label name="finalNightLabel" class="result en" text="-" />
+                <ui:Label name="finalBestLabel" class="result en" text="-" />
+                <ui:Label name="newBestLabel" class="new-best en" text="-" />
+                <ui:VisualElement class="button-row">
+                    <ui:Button name="playAgainButton" class="big-button en" text="-" />
+                    <ui:Button name="menuButton" class="small-button en" text="-" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

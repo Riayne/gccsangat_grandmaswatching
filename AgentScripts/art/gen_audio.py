@@ -153,6 +153,64 @@ def ambient():
     save("ambient", x, 0.5)
 
 
+def cough():
+    out = np.zeros(int(SR * 0.6))
+    for st, dur, amp in ((0.0, 0.16, 1.0), (0.22, 0.2, 0.8)):
+        n = int(SR * dur)
+        noise = rng.normal(0, 1, n)
+        x = lowpass(noise, 6) * env(n, 0.005, 0.06)
+        x += np.sin(2 * np.pi * 180 * t(dur)) * env(n, 0.005, 0.04) * 0.4
+        p = int(SR * st)
+        out[p:p + n] += x * amp
+    save("cough", out, 0.8)
+
+
+def giggle():
+    out = []
+    for i, f in enumerate((900, 1000, 950, 1100)):
+        tt = t(0.11)
+        vib = np.sin(2 * np.pi * 30 * tt) * 40
+        x = np.sin(2 * np.pi * np.cumsum(f + vib) / SR) * env(len(tt), 0.01, 0.05)
+        out += [x, np.zeros(int(SR * 0.04))]
+    save("giggle", np.concatenate(out), 0.6)
+
+
+def ups_beep():
+    out = []
+    for _ in range(3):
+        tt = t(0.12)
+        out += [np.sign(np.sin(2 * np.pi * 2000 * tt)) * 0.5, np.zeros(int(SR * 0.12))]
+    save("ups_beep", np.concatenate(out), 0.5)
+
+
+def golden_chime():
+    out = []
+    for f in (1047, 1319, 1568, 2093):
+        tt = t(0.09)
+        out.append((np.sin(2 * np.pi * f * tt) + 0.4 * np.sin(2 * np.pi * 3 * f * tt)) * env(len(tt), 0.002, 0.12))
+    tail = t(0.5)
+    out.append(np.sin(2 * np.pi * 2093 * tail) * env(len(tail), 0.002, 0.2) * 0.6)
+    save("golden", np.concatenate(out), 0.6)
+
+
+def night_start():
+    notes = (523, 659, 784, 659, 1047)
+    out = []
+    for f in notes:
+        tt = t(0.14)
+        out.append((np.sin(2 * np.pi * f * tt) + 0.3 * np.sign(np.sin(2 * np.pi * f * tt))) * env(len(tt), 0.005, 0.12))
+    save("night_start", np.concatenate(out), 0.6)
+
+
+def power_off():
+    tt = t(0.9)
+    f = np.linspace(120, 30, len(tt))
+    x = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tt / 0.4)
+    x += lowpass(rng.normal(0, 1, len(tt)), 3) * env(len(tt), 0.001, 0.02)
+    save("power_off", x, 0.8)
+
+
 if __name__ == "__main__":
     footstep(); crunch(); knock(); glass(); whoosh(); sting(); door_close(); jump(); praise(); ambient()
+    cough(); giggle(); ups_beep(); golden_chime(); night_start(); power_off()
     print("ok", sorted(os.listdir(OUT)))
