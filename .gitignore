@@ -78,3 +78,6 @@ desktop.ini
 
 # Agent screenshots
 /AgentScripts/shots/
+
+# Android build intermediates (Gradle/CMake)
+/.utmp/
