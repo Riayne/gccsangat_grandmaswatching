@@ -1,0 +1,31 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="Game.uss" />
+    <ui:VisualElement name="root" class="root" picking-mode="Ignore">
+        <ui:Label name="boxLabel" class="box-label" picking-mode="Ignore" text="-" />
+        <ui:VisualElement name="hud" class="hud truck-frame" picking-mode="Ignore">
+            <ui:Label name="scoreLabel" class="hud-label score" picking-mode="Ignore" text="-" />
+            <ui:Label name="bestLabel" class="hud-label" picking-mode="Ignore" text="-" />
+        </ui:VisualElement>
+        <ui:VisualElement name="bubble" class="bubble hidden" picking-mode="Ignore">
+            <ui:Label name="bubbleText" class="bubble-text" picking-mode="Ignore" text="-" />
+        </ui:VisualElement>
+        <ui:Label name="praise" class="praise" picking-mode="Ignore" text="-" />
+        <ui:VisualElement name="titlePanel" class="screen hidden">
+            <ui:VisualElement class="card truck-frame">
+                <ui:Label name="titleLabel" class="title" text="-" />
+                <ui:Label name="taglineLabel" class="tagline" text="-" />
+                <ui:VisualElement name="howTo" class="how-to" />
+                <ui:Button name="startButton" class="big-button" text="-" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="gameOverPanel" class="screen hidden">
+            <ui:VisualElement class="card truck-frame">
+                <ui:Label name="caughtLabel" class="caught" text="-" />
+                <ui:Label name="finalScoreLabel" class="result" text="-" />
+                <ui:Label name="finalBestLabel" class="result" text="-" />
+                <ui:Label name="newBestLabel" class="new-best" text="-" />
+                <ui:Button name="retryButton" class="big-button" text="-" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

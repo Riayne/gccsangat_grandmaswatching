@@ -75,3 +75,6 @@ crashlytics-build.properties
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Agent screenshots
+/AgentScripts/shots/

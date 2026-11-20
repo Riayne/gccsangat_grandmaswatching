@@ -1,0 +1,25 @@
+S bg_lounge 0.0 0.0 10.8 24.0 0
+S moonbeam 0.75 0.6 5.7 12.0 1
+S window_jali 0.0 6.25 3.5 3.4 6
+S curtains 0.0 6.2 4.2 3.6 7
+S door_kitchen -3.7 3.28 2.4 4.64 3
+S door_bedroom 3.7 3.28 2.4 4.64 3
+S door_hall 0.0 2.63 2.3 3.34 3
+S strip_kitchen -3.7 1.16 2.4 0.52 2
+S strip_bedroom 3.7 1.16 2.4 0.52 2
+S strip_hall 0.0 1.16 2.3 0.52 2
+S strip_window 0.0 4.6 3.0 0.4 8
+S strip_sofa -2.7 -3.25 4.0 0.5 9
+S sofa -3.1 -1.5 4.0 3.6 8
+S charpai -2.1 -7.05 6.6 4.9 20
+S stool 2.95 -7.85 3.1 2.9 21
+S cookie_box 2.9 -5.225 3.6 2.85 26
+S box_label 2.9 -5.625 2.8 1.25 0
+S box_lid 2.9 -3.4 3.4 2.0 19
+S bacha_eat -0.05 -3.75 4.9 5.5 25
+S bacha_hide -0.75 -4.7 1.9 1.0 15
+P kitchen Door dadi 0 -0.9 1.0 -3.7 0.92 -3.7 3.28 2.4 4.64 4
+P bedroom Door dadi 0 0.9 1.0 3.7 0.92 3.7 3.28 2.4 4.64 4
+P hall Door dadi 0 0.0 0.74 0.0 0.92 0.0 2.63 2.3 3.34 4
+P window Window dadi_bust 0.2 0.15 1.0 0.2 4.6 0.0 6.3 3.0 2.8 5
+P sofa Sofa dadi 0.45 -0.5 1.0 -3.1 -2.0 -3.1 -1.5 4.0 3.6 5
