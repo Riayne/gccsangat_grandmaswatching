@@ -43,12 +43,19 @@ public static class MechanicsTest
                 case "tutorial": await Tutorial(); break;
                 case "nightcard": await NightCardShot(); break;
                 case "caught": await CaughtShot(); break;
+                case "eatshot": await EatShot(); break;
+                case "chotushot": await ChotuShot(); break;
+                case "watchshot": await WatchShot(); break;
             }
         }
         finally
         {
-            Touch(false);
-            InputSystem.RemoveDevice(finger);
+            // Screenshot scenarios keep the finger down so the frozen frame shows the bacha eating.
+            if (!scenario.EndsWith("shot"))
+            {
+                Touch(false);
+                InputSystem.RemoveDevice(finger);
+            }
         }
         return log.ToString();
     }
@@ -59,6 +66,7 @@ public static class MechanicsTest
         gm.StartGame();
         await Seconds(2.8f, realtime: true);   // night card
         typeof(GameManager).GetProperty("Night").SetValue(gm, night);
+        gm.ui.SetHud(Nights.PreviousTarget(night), Mathf.Max(gm.Best, Nights.PreviousTarget(night)), night);
         Log($"playing, night set to {gm.Night}, state {gm.Current}");
     }
 
@@ -201,6 +209,40 @@ public static class MechanicsTest
         await Until(() => dadi.IsWatching, 10);
         await Seconds(3.5f, realtime: true);
         Log($"game {gm.Current}, score {gm.Score}, rank {UrduText.RankFor(gm.Score)}");
+    }
+
+    static async Task EatShot()
+    {
+        gm.goldenEvery = new Vector2(3.6f, 3.8f);
+        gm.goldenShowTime = 5f;
+        gm.noisePerSecond = new[] { 0f, 0.01f, 0.02f, 0.03f };   // keep Dadi asleep for the screenshot
+        await StartAt(4, 30f);
+        Touch(true);
+        await Until(() => gm.Multiplier == 3, 8);
+        await Seconds(0.3f);
+        Time.timeScale = 0f;
+        Log($"eating x{gm.Multiplier}, golden {gm.cookieBox.GoldenActive}, noise {gm.Noise:F2}");
+    }
+
+    static async Task ChotuShot()
+    {
+        dadi.chotuChance = 1f;
+        dadi.blackoutChance = 0f;
+        await StartAt(8, 0.5f);
+        await Until(() => dadi.Current == DadiController.State.ChotuWatching, 10);
+        await Seconds(0.3f);
+        Time.timeScale = 0f;
+        Log($"chotu at {dadi.CurrentSpawn.name}");
+    }
+
+    static async Task WatchShot()
+    {
+        dadi.fakeChanceEasy = dadi.fakeChanceHard = 0f;
+        await StartAt(2, 0.5f);
+        await Until(() => dadi.IsWatching && dadi.CurrentSpawn.kind == SpawnPoint.Kind.Door && dadi.CurrentSpawn.name != "Spawn_hall", 30);
+        await Seconds(0.25f);
+        Time.timeScale = 0f;
+        Log($"watching from {dadi.CurrentSpawn.name}");
     }
 
     static void Touch(bool down)

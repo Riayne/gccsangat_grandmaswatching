@@ -5,6 +5,7 @@ Unity mobile game jam project. Final deliverable is an **Android APK**.
 ## Project
 - Unity 6000.6.9f1 (Unity 6.6), 2D URP template.
 - Target platform: Android. Build output is an APK, not an AAB.
+- Repo layout follows the TeknoFest submission guidelines: the Unity project is in `Source/` (open that folder in Unity), the final APK is committed as `Builds/ShhDadi.apk`, screenshots are in `Docs/screenshots/`, plus `README.md` and `LICENSE` at the root. Rebuild the APK whenever the source changes so it matches the code.
 - Keystores (`*.keystore`, `*.jks`) are gitignored. Never commit signing files or passwords.
 
 ## Design constraints
@@ -15,11 +16,12 @@ Unity mobile game jam project. Final deliverable is an **Android APK**.
 ## Code
 - Simple C# MonoBehaviour scripts. One clear responsibility per script.
 - No heavy frameworks or architecture (no DI containers, no ECS/DOTS, no complex event buses).
-- **Avoid heavy packages.** Use what's already in `Packages/manifest.json`. Ask before adding any package or Asset Store asset.
-- Keep scripts under `Assets/Scripts/`, scenes under `Assets/Scenes/`.
+- **Avoid heavy packages.** Use what's already in `Source/Packages/manifest.json`. Ask before adding any package or Asset Store asset.
+- Keep scripts under `Source/Assets/Scripts/`, scenes under `Source/Assets/Scenes/`.
+- Every new asset (art, sound, font, plugin) must be added to the asset declaration in `README.md`.
 - Always keep `.meta` files with their assets.
 
 ## Git workflow
 - Commit after each working feature, with a clear message describing what it adds (e.g. `Add tap-to-jump player control`).
 - Only commit features that work: compiles without errors and has been tested in the Editor.
-- Don't commit `Library/`, `Temp/`, `Logs/`, `Obj/`, `UserSettings/` or build output (already covered by `.gitignore`).
+- Don't commit `Library/`, `Temp/`, `Logs/`, `Obj/`, `UserSettings/` or build output other than `Builds/*.apk` (covered by the two `.gitignore` files).
